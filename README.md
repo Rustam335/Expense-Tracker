@@ -6,7 +6,9 @@ Everything runs in your browser and your data is persisted to `localStorage`, so
 
 ## Screenshots
 
-<!-- add screenshot here -->
+| Light | Dark |
+| :---: | :---: |
+| ![Expense Tracker — light mode](screenshots/light.png) | ![Expense Tracker — dark mode](screenshots/dark.png) |
 
 ## Features
 
