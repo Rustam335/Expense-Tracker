@@ -1,0 +1,340 @@
+@import "tailwindcss";
+
+/* Enable class-based dark mode for Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =========================================================================
+   "Ledger" — Personal Finance dashboard design system
+   Per design-system spec: trust-blue (#1E40AF) primary, blue (#3B82F6)
+   secondary, profit-green (#059669) income/CTA, red (#DC2626) expense.
+   LIGHT is the default theme; dark is the OLED variant from the spec.
+   ========================================================================= */
+
+:root {
+  /* Spacing tokens (spec) */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Shadow depths (spec) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+  /* Light theme — neutral, professional, high contrast (default) */
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-solid: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #e8eef6;
+  --border: rgba(15, 23, 42, 0.1);
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --foreground: #0f172a;
+  --muted: #475569;
+  --faint: #64748b;
+
+  --primary: #1e40af;
+  --primary-2: #3b82f6;
+  --primary-foreground: #ffffff;
+  --accent: #059669;
+
+  --income: #059669;
+  --income-soft: rgba(5, 150, 105, 0.12);
+  --expense: #dc2626;
+  --expense-soft: rgba(220, 38, 38, 0.1);
+
+  --ring: rgba(30, 64, 175, 0.28);
+  --hero-from: #1e40af;
+  --hero-to: #059669;
+
+  --shadow-card: var(--shadow-md);
+  --grid-line: rgba(15, 23, 42, 0.04);
+}
+
+.dark {
+  /* Dark theme — OLED-style deep slate (#0F172A) base, per spec */
+  --background: #0f172a;
+  --surface: rgba(17, 28, 51, 0.72);
+  --surface-solid: #111c33;
+  --surface-2: rgba(30, 41, 71, 0.6);
+  --surface-3: #1c2944;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --foreground: #f1f5f9;
+  --muted: #94a3b8;
+  --faint: #64748b;
+
+  --primary: #3b82f6;
+  --primary-2: #60a5fa;
+  --primary-foreground: #0f172a;
+  --accent: #10b981;
+
+  --income: #10b981;
+  --income-soft: rgba(16, 185, 129, 0.16);
+  --expense: #f87171;
+  --expense-soft: rgba(248, 113, 113, 0.16);
+
+  --ring: rgba(59, 130, 246, 0.45);
+  --hero-from: #60a5fa;
+  --hero-to: #10b981;
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 24px 60px -28px rgba(0, 0, 0, 0.85);
+  --grid-line: rgba(255, 255, 255, 0.03);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-income: var(--income);
+  --color-expense: var(--expense);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.01em;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.font-mono,
+.tabular {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "ss01" 1;
+}
+
+/* =========================================================================
+   Ambient mesh backdrop
+   ========================================================================= */
+.app-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(48rem 38rem at 88% -12%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 60%),
+    radial-gradient(44rem 36rem at -8% 8%, color-mix(in oklab, var(--accent) 9%, transparent), transparent 58%),
+    radial-gradient(40rem 40rem at 50% 120%, color-mix(in oklab, var(--income) 7%, transparent), transparent 60%);
+}
+
+.dark .app-backdrop {
+  background:
+    radial-gradient(48rem 38rem at 88% -12%, color-mix(in oklab, var(--primary) 22%, transparent), transparent 60%),
+    radial-gradient(44rem 36rem at -8% 8%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 58%),
+    radial-gradient(40rem 40rem at 50% 120%, color-mix(in oklab, var(--income) 12%, transparent), transparent 60%);
+}
+
+.app-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+
+/* =========================================================================
+   Surfaces — glassy elevated cards
+   ========================================================================= */
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+}
+
+/* Thin gradient hairline at the top edge of a card */
+.card-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  border-radius: 1.25rem 1.25rem 0 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--primary) 50%, transparent),
+    transparent
+  );
+  opacity: 0.7;
+}
+
+/* =========================================================================
+   Custom scrollbars
+   ========================================================================= */
+.scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.scroll-area::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-area::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.scroll-area::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+  background-clip: padding-box;
+}
+
+/* =========================================================================
+   Hero balance — gradient glow number
+   ========================================================================= */
+.hero-figure {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(120deg, var(--hero-from), var(--hero-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .hero-figure {
+  filter: drop-shadow(0 6px 28px color-mix(in oklab, var(--primary) 38%, transparent));
+}
+
+/* =========================================================================
+   Segmented control / pill toggles
+   ========================================================================= */
+.seg {
+  position: relative;
+  isolation: isolate;
+}
+
+/* =========================================================================
+   Motion
+   ========================================================================= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.reveal {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.animate-in {
+  animation: fadeIn 0.4s ease both;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2),
+    var(--surface-3),
+    var(--surface-2)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .animate-in,
+  .skeleton {
+    animation: none;
+    opacity: 1;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* =========================================================================
+   Form controls — consistent, refined
+   ========================================================================= */
+.field {
+  width: 100%;
+  border-radius: 0.85rem;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 0.65rem 0.8rem;
+  font-size: 0.875rem;
+  color: var(--foreground);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--ring);
+  background: var(--surface-3);
+}
+.field::placeholder {
+  color: var(--faint);
+}
+select.field {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238a94a8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  padding-right: 2rem;
+}
+
+/* Recharts focus outlines off (we provide our own styling) */
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}
+.recharts-default-legend {
+  letter-spacing: 0;
+}
